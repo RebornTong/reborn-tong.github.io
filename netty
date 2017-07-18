@@ -3,3 +3,15 @@
 
 
 LengthFieldBasedFrameDecoder
+
+
+避免内存泄露，需要这样释放资源
+http://netty.io/wiki/reference-counted-objects.html
+public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    ByteBuf buf = (ByteBuf) msg;
+    try {
+        ...
+    } finally {
+        buf.release();
+    }
+}
